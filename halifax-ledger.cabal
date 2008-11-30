@@ -1,0 +1,58 @@
+Name:               halifax-ledger
+Version:            0.1
+Cabal-Version:      >= 1.2
+Category:           Finance
+Synopsis:           Halifax statement conversion into Ledger format
+Description:        Recover your data from uncooperative banks by parsing out your transaction information.
+License:            BSD3
+License-File:       LICENSE
+Extra-Source-Files: README.textile
+Author:             Max Bolingbroke
+Maintainer:         batterseapower@hotmail.com
+Homepage:           http://github.com/batterseapower/halifax-ledger
+Build-Type:         Simple
+
+Data-Dir:           test-data
+Data-Files:
+        Rules.rules
+        Statement-Page-1.html
+        Statement-Page-2.html
+
+Flag Tests
+        Description:    Enable building the tests
+        Default:        False
+
+Flag SplitBase
+        Description:    Choose the new smaller, split-up base package
+        Default:        True
+
+
+Executable halifax-ledger
+        Main-Is:                Ledger/Halifax/Main.hs
+        
+        Build-Depends:          time >= 1.1, old-locale >= 1.0, tagsoup >= 0.6,
+                                regex-posix >= 0.72
+        if flag(splitBase)
+                Build-Depends:  base >= 3, containers >= 0.1.0.1
+        else
+                Build-Depends:  base < 3
+        
+        Extensions:             PatternGuards, PatternSignatures
+        Ghc-Options:            -Wall
+
+Executable halifax-ledger-tests
+        Main-Is:                Ledger/Halifax/Tests.hs
+        
+        Build-Depends:          time >= 1.1, old-locale >= 1.0, tagsoup >= 0.6,
+                                regex-posix >= 0.72,
+                                test-framework >= 0.1.1, test-framework-hunit >= 0.1.1, HUnit >= 1.2
+        if flag(splitBase)
+                Build-Depends:  base >= 3, containers >= 0.1.0.1
+        else
+                Build-Depends:  base < 3
+        
+        Extensions:             PatternGuards, PatternSignatures
+        Ghc-Options:            -Wall
+        
+        if !flag(tests)
+                Buildable:      False
