@@ -1,7 +1,9 @@
-module Ledger.Halifax.Utilities where
+module Finance.Halifax.Utilities where
 
 import Data.Char
 import Data.Maybe
+
+import Numeric
 
 
 trim :: String -> String
@@ -12,6 +14,9 @@ fragment start end = span (not . end) . dropWhile (not . start)
 
 firstJust :: [Maybe a] -> Maybe a
 firstJust = listToMaybe . catMaybes
+
+orElse :: Maybe a -> a -> a
+orElse = flip fromMaybe
 
 notNull :: [a] -> Bool
 notNull = not . null
@@ -26,3 +31,8 @@ splitEithers :: [Either a b] -> ([a], [b])
 splitEithers [] = ([], [])
 splitEithers (Left x:rest) = onLeft (x:) $ splitEithers rest
 splitEithers (Right y:rest) = onRight (y:) $ splitEithers rest
+
+-- | Shows the given number in a currency-like way (i.e. with two trailing zeroes).
+-- I wish I could look up the number of digits in the locale, but alas that is not possible!
+showFloatAsCurrencylike :: RealFloat a => a -> String
+showFloatAsCurrencylike = flip (showFFloat (Just 2)) ""

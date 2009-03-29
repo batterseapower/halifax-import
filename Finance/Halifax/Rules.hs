@@ -1,12 +1,12 @@
-module Ledger.Halifax.Rules where
+module Finance.Halifax.Rules where
 
 import Data.Maybe
 import Data.List
 
 import Text.Regex.Posix
 
-import Ledger.Halifax.Core
-import Ledger.Halifax.Utilities
+import Finance.Halifax.Core
+import Finance.Halifax.Utilities
 
 
 data Rule = Rule {

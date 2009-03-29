@@ -1,10 +1,10 @@
-module Ledger.Halifax.RulesParser (parseRules) where
+module Finance.Halifax.RulesParser (parseRules) where
 
 import Data.Maybe
 import Data.List
 
-import Ledger.Halifax.Rules
-import Ledger.Halifax.Utilities
+import Finance.Halifax.Rules
+import Finance.Halifax.Utilities
 
 
 parseRules :: String -> [Rule]

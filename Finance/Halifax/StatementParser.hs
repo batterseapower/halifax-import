@@ -1,4 +1,4 @@
-module Ledger.Halifax.StatementParser (Transaction(..), parseStatement) where
+module Finance.Halifax.StatementParser (Transaction(..), parseStatement) where
 
 import Data.Char
 import Data.List
@@ -9,8 +9,8 @@ import System.Locale
 
 import Text.HTML.TagSoup
 
-import Ledger.Halifax.Core
-import Ledger.Halifax.Utilities
+import Finance.Halifax.Core
+import Finance.Halifax.Utilities
 
 
 parseStatement :: [String] -> (Account, [Transaction])
@@ -56,7 +56,7 @@ parseTransactionRow tags = (mb_date, text, mb_event)
 parseAmount_maybe :: String -> Maybe Amount
 parseAmount_maybe text
   | [amount] <- [fromInteger pounds + (fromInteger pence / 100)
-                     | (pounds, _) <- readsPrec 0 pounds_text
+                     | (pounds, _) <- readsPrec 0 (filter (/= ',') pounds_text)
                      , (pence, _) <- readsPrec 0 (tail dot_pence_text)]
   = Just amount
   | otherwise

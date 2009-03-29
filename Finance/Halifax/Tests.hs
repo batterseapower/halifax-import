@@ -11,10 +11,10 @@ import Test.Framework
 import Test.Framework.Providers.HUnit
 import Test.HUnit hiding (Test)
 
-import Ledger.Halifax.Core
-import Ledger.Halifax.Rules
-import Ledger.Halifax.RulesParser
-import Ledger.Halifax.StatementParser
+import Finance.Halifax.Core
+import Finance.Halifax.Rules
+import Finance.Halifax.RulesParser
+import Finance.Halifax.StatementParser
 
 
 main :: IO ()

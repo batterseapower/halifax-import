@@ -1,15 +1,15 @@
-Name:               halifax-ledger
+Name:               halifax-import
 Version:            0.1
 Cabal-Version:      >= 1.2
 Category:           Finance
-Synopsis:           Halifax statement conversion into Ledger format
+Synopsis:           Halifax statement conversion into QIF and Ledger formats
 Description:        Recover your data from uncooperative banks by parsing out your transaction information.
 License:            BSD3
 License-File:       LICENSE
 Extra-Source-Files: README.textile
 Author:             Max Bolingbroke
 Maintainer:         batterseapower@hotmail.com
-Homepage:           http://github.com/batterseapower/halifax-ledger
+Homepage:           http://github.com/batterseapower/halifax-import
 Build-Type:         Simple
 
 Data-Dir:           test-data
@@ -28,7 +28,7 @@ Flag SplitBase
 
 
 Executable halifax-ledger
-        Main-Is:                Ledger/Halifax/Main.hs
+        Main-Is:                Finance/Halifax/Main.hs
         
         Build-Depends:          time >= 1.1, old-locale >= 1.0, tagsoup >= 0.6,
                                 regex-posix >= 0.72
@@ -41,7 +41,7 @@ Executable halifax-ledger
         Ghc-Options:            -Wall
 
 Executable halifax-ledger-tests
-        Main-Is:                Ledger/Halifax/Tests.hs
+        Main-Is:                Finance/Halifax/Tests.hs
         
         Build-Depends:          time >= 1.1, old-locale >= 1.0, tagsoup >= 0.6,
                                 regex-posix >= 0.72,
