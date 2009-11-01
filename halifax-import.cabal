@@ -44,8 +44,7 @@ Executable halifax-import-tests
         Main-Is:                Finance/Halifax/Tests.hs
         
         Build-Depends:          time >= 1.1, old-locale >= 1.0, tagsoup >= 0.6,
-                                regex-posix >= 0.72,
-                                test-framework >= 0.1.1, test-framework-hunit >= 0.1.1, HUnit >= 1.2
+                                regex-posix >= 0.72
         if flag(splitBase)
                 Build-Depends:  base >= 3, containers >= 0.1.0.1
         else
@@ -56,3 +55,6 @@ Executable halifax-import-tests
         
         if !flag(tests)
                 Buildable:      False
+        else
+                Build-Depends:  test-framework >= 0.1.1, test-framework-hunit >= 0.1.1, HUnit >= 1.2
+
