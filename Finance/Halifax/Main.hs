@@ -1,9 +1,5 @@
 module Main where
 
-import Control.Monad
-
-import Data.List
-import Data.Maybe
 import Data.Monoid
 
 import System.Console.GetOpt
@@ -11,6 +7,7 @@ import System.Environment (getArgs)
 import System.Exit
 import System.IO
 
+import Finance.Halifax.CSV
 import Finance.Halifax.Ledger
 import Finance.Halifax.QIF
 import Finance.Halifax.Options
@@ -26,7 +23,7 @@ main = do
     let (optionss, page_paths, errors) = getOpt Permute option_descriptions args
     if notNull errors
       then do
-          mapM putStrLn errors
+          mapM_ putStrLn errors
           putStrLn $ usageInfo "halifax-ledger" option_descriptions
           exitWith (ExitFailure 1)
       else do

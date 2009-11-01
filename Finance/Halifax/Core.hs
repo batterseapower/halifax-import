@@ -1,6 +1,5 @@
 module Finance.Halifax.Core where
 
-import Data.Maybe
 import Data.Time
 
 
