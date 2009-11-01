@@ -45,4 +45,5 @@ main = do
           let output_method = case opt_output_method options `orElse` QIF of
                                   QIF    -> outputQIF
                                   Ledger -> outputLedger
+                                  CSV    -> outputCSV
           output_method options account transactions'

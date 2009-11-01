@@ -13,14 +13,17 @@ import Data.Monoid
 
 data OutputMethod = Ledger
                   | QIF
+                  | CSV
 
 instance Show OutputMethod where
     show Ledger = "ledger"
     show QIF    = "qif"
+    show CSV    = "csv"
 
 instance Read OutputMethod where
     readsPrec _ s | "ledger" `isPrefixOf` lower_s = [(Ledger, drop 6 s)]
                   | "qif"    `isPrefixOf` lower_s = [(QIF, drop 3 s)]
+                  | "csv"    `isPrefixOf` lower_s = [(CSV, drop 3 s)]
                   | otherwise                     = []
       where lower_s = map toLower s
 
@@ -45,7 +48,7 @@ instance Monoid Options where
 
 option_descriptions :: [OptDescr Options]
 option_descriptions = [
-        Option ['f'] ["output-format"] (ReqArg (\s -> mempty { opt_output_method = Just (read s) }) "ledger|ofx")
+        Option ['f'] ["output-format"] (ReqArg (\s -> mempty { opt_output_method = Just (read s) }) "ledger|qif|csv")
             "Format to output the parsed file in",
         Option ['r'] ["rules"] (ReqArg (\s -> mempty { opt_rules_file = Just s }) "filename")
             "Rules file to use for processing transactions",
