@@ -29,10 +29,13 @@ main = do
       else do
           let options = mconcat optionss
           
-          -- Read the page files and the statement they contain
-          pages <- mapM readFile page_paths
+          -- Read the page files and the statement they contain.
+          -- For some reason, the Halifax files contain character 0xA0 (160).
+          -- This terminates the file reading process in text mode for some reason,
+          -- so let's just read in binary mode for now.
+          pages <- mapM readBinaryFile page_paths
           let (account, transactions) = parseStatement pages
-          hPutStrLn stderr (show transactions)
+          --hPutStrLn stderr (show transactions)
           
           -- Read the rules (if any) and apply them to the transactions from the pages
           rules <- maybe (return []) (fmap parseRules . readFile) $ opt_rules_file options
@@ -44,3 +47,8 @@ main = do
                                   Ledger -> outputLedger
                                   CSV    -> outputCSV
           output_method options account transactions'
+
+readBinaryFile :: FilePath -> IO String
+readBinaryFile fp = withBinaryFile fp ReadMode $ \h -> do
+    res <- hGetContents h
+    length res `seq` return res

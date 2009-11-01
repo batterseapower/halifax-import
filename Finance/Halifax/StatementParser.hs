@@ -12,12 +12,12 @@ import Text.HTML.TagSoup
 import Finance.Halifax.Core
 import Finance.Halifax.Utilities
 
-
 parseStatement :: [String] -> (Account, [Transaction])
 parseStatement pages = (parseAccountInfo account_info, transactions)
   where
-    tagss = map parseTags pages
-    account_info = fst $ fragment (~== "<table class=bankingSummaryContainer>") (~== "<br>") (head tagss)
+    -- Halifax seems to include stray non-ASCII characters in the files, for some reason (these are the ones that mean we have to read in binary mode).
+    tagss = map (parseTags . map (\c -> if isAscii c then c else ' ')) pages
+    account_info = fst $ fragment (~== "<table class=bankingSummaryContainer>") (~== "<table class=bankingSummaryInfo>") (head tagss)
     
     transaction_infoss = map (fst . fragment (~== "<table class=DataTable>") (~== "</table>")) tagss
     transaction_rowss = map (drop 1 . partitions (~== "<tr>")) transaction_infoss
@@ -30,7 +30,7 @@ parseAccountInfo tags = Account {
         acc_roll_number = get_summary_for "Roll number"
     }
   where
-    get_summary_for = filter (not . isSpace) . fromJust . flip lookup summaries
+    get_summary_for key = filter (not . isSpace) . maybe (error $ "No value for " ++ key) id . flip lookup summaries $ key
     summaries = unfoldr unfold_summary tags
     unfold_summary tags' = case dropWhile (~/= "<td class=summaryBoxesText>") tags' of
         []     -> Nothing
